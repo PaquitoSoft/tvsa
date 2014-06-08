@@ -6,6 +6,22 @@ The first code has been written following this awesome tutorial: [Create a TV Sh
 
 TODO
 ====
+* Organize client-side code
+* Refactor server-side code
+* Write tests for current code (server and client)
+* Add code coverage (gulp-coverage)
+* Do not store whole user in cookies (Explore token-based authentication)
+* Change the way tv-shows are added to database
+* Change relationship between show and user (a user must have shows, not the other way)
+* Integrate with tvshows statistics graphs
+* Use some typeahead plugin for searching tvshows functionality
+* Show episodes rating
+* Show ratings votes counter
+* Ignore episodes with seasonNumber === 0???
+* HTML mails (use templates)
+* Third party authentication
+* Recover password process? (disable local app auth?)
+
 * User profile page with a list of subscribed shows
 * Dynamically update page <title> on each route
 * Create a personalized calendar view with subscribed shows

@@ -5,7 +5,20 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	concat = require('gulp-concat'),
 	uncss = require('gulp-uncss'),
-	templateCache = require('gulp-angular-templatecache');
+	templateCache = require('gulp-angular-templatecache'),
+	mocha = require('gulp-mocha'),
+	karma = require('glup-karma'),
+	jshint = require('gulp-jshint'),
+	stylish = require('jshint-stylish');
+
+gulp.task('lint', function() {
+	gulp.src([ // TODO Add client code after refactor
+		'server.js',
+		'lib/**/*.js'
+	])
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish));
+});
 
 gulp.task('sass', function() {
 	gulp.src('public/stylesheets/style.scss')
@@ -46,9 +59,32 @@ gulp.task('templates', function() {
 		.pipe(gulp.dest('public'));
 });
 
+gulp.task('test-server', function() {
+	gulp.src('test/server/src/**/*.spec.js')
+		.pipe(mocha({
+			reporter: 'nyan'
+		}));
+});
+
+gulp.task('test-client', function() {
+	gulp.src([
+		'public/js/**/*.js',
+		'!public/app.min.js',
+		'!public/vendor'
+		])
+		.pipe(karma({
+			configFile: 'text/client/config/karma.conf.js',
+			action: 'run'
+		}))
+		.on('error', function(err) {
+			// Make sure failed tests cause gulp to exit non-zero
+			throw err;
+		});
+});
+
 gulp.task('watch', function() {
 	gulp.watch('public/stylesheets/*.scss', ['sass']);
 	gulp.watch(['public/**/.js', '!public/app.min.js', '!public/vendor'], ['compress']);
 });
 
-gulp.task('default', ['sass', 'compress-client-js', 'templates', 'watch']);
+gulp.task('default', ['lint' ,'sass', 'compress-client-js', 'templates', 'watch']);
