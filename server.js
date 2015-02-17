@@ -14,7 +14,8 @@ var express = require('express'),
 	scheduler = require('./lib/services/scheduler'),
 	auth = require('./lib/services/auth'),
 	mailer = require('./lib/services/mailer'),
-	tvdb = require('./lib/services/tvdb');
+	tvdb = require('./lib/services/tvdb'),
+	middleware = require('./lib/middleware');
 
 var MONGO_URL = process.env.SHOWTRACKER_MONGO_URL || 'localhost:27017/showtracker',
 	THE_TV_DB_API_KEY = process.env.THE_TV_DB_API_KEY,
@@ -34,8 +35,12 @@ app.use(cookieParser());
 app.use(session({ secret: 'fjdsFDSF44···4jkffSDF' }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(middleware.imageProcessor);
+
 // TODO El maxAge no parece estar funcionando
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 86400000 })); // One day caching
+// app.use(express.static(path.join(__dirname, 'public'), { maxAge: 86400000 })); // One day caching
+app.use(express.static(path.join(__dirname, 'public'))); // One day caching
 
 /* ------------- Custom Middleware -------------- */
 app.use(function(req, res, next) {

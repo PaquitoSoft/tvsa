@@ -25,7 +25,7 @@
 			<div class="row show-list">
 				<div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
 					<a href="/shows/{{show._id}}">
-						<img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+						<img class="img-rounded" ng-src="http://thetvdb.com/banners/{{show.poster}}" width="100%"/>
 					</a>
 					<div class="text-center">
 						<a href="/shows/{{show._id}}">{{show.name}}</a>
