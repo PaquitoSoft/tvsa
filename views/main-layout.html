@@ -22,15 +22,19 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
 				<li><a href="/add">Add</a></li>
+				<li><a href="#">User: {{user}}</a></li>
 			</ul>
-			<ul class="nav navbar-nav pull-right" ng-if="!currentUser">
-				<li><a href="/login">Login</a></li>
-				<li><a href="/signup">Sign up</a></li>
-			</ul>
-			<ul class="nav navbar-nav pull-right" ng-if="currentUser">
-				<li class="navbar-text" ng-bind="currentUser.email"></li>
-				<li><a href="/api/logout">Logout</a></li>
-			</ul>
+			{{#isUserLogged}}
+				<ul class="nav navbar-nav pull-right">
+					<li class="navbar-text">[[user.email]]</li>
+					<li><a href="/api/logout">Logout</a></li>
+				</ul>
+			{{else}}
+				<ul class="nav navbar-nav pull-right">
+					<li><a href="/login">Login</a></li>
+					<li><a href="/signin">Sign up</a></li>
+				</ul>
+			{{/}}
 		</div>
 
 		<div id="main-content">

@@ -1,0 +1,30 @@
+<div class="container">
+	<br/>
+
+	<div class="row">
+
+		<div class="center-form panel">
+			<form method="post" on-submit="signup" name="signupForm">
+				<div class="panel-body">
+					<h2 class="text-center">Sign up</h2>
+
+					<div class="form-group">
+						<input id="email" type="email" class="form-control input-lg" name="email" placeholder="Email" required autofocus>
+					</div>
+
+					<div class="form-group">
+						<input type="password" class="form-control input-lg" name="password" ng-model="password" placeholder="Password" required>
+					</div>
+
+					<div class="form-group">
+						<input type="password" class="form-control input-lg" name="confirmPassword" ng-model="confirmPassword" repeat-password="password" placeholder="Confirm Password" required>
+					</div>
+
+					<button class="btn btn-lg btn-block btn-primary" type="submit" ng-disabled="signupForm.$invalid">Create Account</button>
+					
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>
