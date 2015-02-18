@@ -1,0 +1,44 @@
+<div class="jumbotron">
+	<div class="container">
+		<ul class="alphabet">
+			{{#alphabet}}
+				<li>
+					<span on-click="filterByAlphabet">{{.}}</span>
+				</li>
+			{{/alphabet}}
+		</ul>
+		<ul class="genres">
+			{{#genres}}
+				<li>
+					<span on-click="filterByGenre">{{.}}</span>
+				</li>
+			{{/genres}}
+		</ul>
+	</div>
+</div>
+
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{{headingTitle}}
+			<div class="pull-right">
+				<input class="search" type="text" placeholder="Search..." on-click="search">
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="row show-list">
+				{{#shows}}
+						<div class="col-xs-4 col-md-3">
+						<a href="/shows/{{_id}}">
+							<img class="img-rounded" src="http://thetvdb.com/banners/{{poster}}" width="100%"/>
+						</a>
+						<div class="text-center">
+							<a href="/shows/{{_id}}">{{show.name}}</a>
+							<p class="text-muted">Episodes: {{episodes.length}}</p>
+						</div>
+					</div>
+				{{/shows}}
+			</div>
+		</div>
+	</div>
+</div>

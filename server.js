@@ -13,18 +13,23 @@ var express = require('express'),
 	routing = require('./lib/routes'),
 	scheduler = require('./lib/services/scheduler'),
 	auth = require('./lib/services/auth'),
-	mailer = require('./lib/services/mailer'),
-	tvdb = require('./lib/services/tvdb'),
+	// mailer = require('./lib/services/mailer'),
+	// tvdb = require('./lib/services/tvdb'),
+	renderer = require('./lib/services/renderer'),
 	middleware = require('./lib/middleware');
 
-var MONGO_URL = process.env.SHOWTRACKER_MONGO_URL || 'localhost:27017/showtracker',
+var MONGO_URL = process.env.SHOWTRACKER_MONGO_URL || 'localhost:27017/showtracker'/*,
 	THE_TV_DB_API_KEY = process.env.THE_TV_DB_API_KEY,
 	SENDGRID_USER = process.env.SHOWTRACKER_SENDGRID_USER,
-	SENDGRID_PASS = process.env.SHOWTRACKER_SENDGRID_PASS;
+	SENDGRID_PASS = process.env.SHOWTRACKER_SENDGRID_PASS*/;
 
 
 /* ----------- Express middleware ----------------- */
 var app = express();
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+app.engine('html', renderer);
 
 app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
@@ -42,7 +47,7 @@ app.use(middleware.imageProcessor);
 // app.use(express.static(path.join(__dirname, 'public'), { maxAge: 86400000 })); // One day caching
 app.use(express.static(path.join(__dirname, 'public'))); // One day caching
 
-/* ------------- Custom Middleware -------------- */
+/* ------------- Custom Middleware -------------- 
 app.use(function(req, res, next) {
 	// TODO Isn't password suppose to do this?
 	if (req.user) {
@@ -50,6 +55,7 @@ app.use(function(req, res, next) {
 	}
 	next();
 });
+*/
 
 /* ---------- Init and configure serices ----------- */
 async.waterfall([
@@ -65,21 +71,19 @@ async.waterfall([
 	function authConfig(done) {
 		auth.configure(done);
 	},
-	function mailerConfig(done) {
+	/*function mailerConfig(done) {
 		mailer.configure({
 			user: SENDGRID_USER,
 			password: SENDGRID_PASS
 		}, done);
-	},
-	function tvdbConfig(done) {
+	},*/
+	/*function tvdbConfig(done) {
 		tvdb.configure({
 			apiKey: THE_TV_DB_API_KEY
 		}, done);
-	},
+	},*/
 	function routingConfig(done) {
-		routing.showRouting.configure(app);
-		routing.userRouting.configure(app);
-		routing.errorRouting.configure(app);
+		routing.configure(app);
 		done();
 	}
 ], function(err) {
