@@ -3,14 +3,14 @@
 		<ul class="alphabet">
 			{{#alphabet}}
 				<li>
-					<span on-click="filterByAlphabet">{{.}}</span>
+					<a href="/?alphabet={{.}}">{{.}}</a>
 				</li>
 			{{/alphabet}}
 		</ul>
 		<ul class="genres">
 			{{#genres}}
 				<li>
-					<span on-click="filterByGenre">{{.}}</span>
+					<a href="/?genre={{.}}">{{.}}</a>
 				</li>
 			{{/genres}}
 		</ul>

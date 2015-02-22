@@ -7,6 +7,7 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	async = require('async'),
 	session = require('express-session'),
+	MongoStore = require('connect-mongo')(session),
 	passport = require('passport'),
 	compress = require('compression'),
 	mongoose = require('mongoose'),
@@ -37,10 +38,16 @@ app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({ secret: 'fjdsFDSF44···4jkffSDF' }));
+app.use(session({
+	secret: 'fjdsFDSF44···4jkffSDF',
+	store: new MongoStore({
+		url: 'mongodb://' + MONGO_URL
+	})
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(middleware.userLoader);
 app.use(middleware.imageProcessor);
 
 // TODO El maxAge no parece estar funcionando

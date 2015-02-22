@@ -4,24 +4,29 @@
 			<div class="media">
 				<div class="pull-left">
 					<img class="media-object img-rounded" src="images/{{show.poster}}">
-					<div class="text-center" ng-if="currentUser">
-						<div>
-							{{#isUserSubscribed}}
-								<button class="btn btn-block btn-danger" on-click="unsubscribe()">
-									<span class="glyphicon glyphicon-minus"></span> Unsubscribe
-								</button>
-							{{else}}
-								<button class="btn btn-block btn-success" on-click="subscribe()">
-									<span class="glyphicon glyphicon-plus"></span> Subscribe
-								</button>
-							{{/isUserSubscribed}}
+					{{#user}}
+						<div class="text-center">
+							<div>
+								{{#isUserSubscribed}}
+									<form action="/show/{{show.id}}/unsubscribe" method="POST">
+										<button class="btn btn-block btn-danger" on-click="unsubscribe">
+											<span class="glyphicon glyphicon-minus"></span> Unsubscribe
+										</button>
+									</form>
+								{{else}}
+									<form action="/show/{{show.id}}/subscribe" method="POST">
+										<button class="btn btn-block btn-success" on-click="subscribe">
+											<span class="glyphicon glyphicon-plus"></span> Subscribe
+										</button>
+									</form>
+								{{/isUserSubscribed}}
+							</div>
 						</div>
-					</div>
-					{{#isUserLogged}}
+					{{else}}
 						<div class="text-center">
 							<a href="/login" class="btn btn-block btn-primary">Login to Subscribe</a>
 						</div>
-					{{/isUserLogged}}
+					{{/user}}
 				</div>
 				<div class="media-body">
 					<h2 class="media-heading">
@@ -64,7 +69,7 @@
 					</h4>
 					<p>
 						<span class="glyphicon glyphicon-calendar"></span>
-						{{firstAired}}
+						<span>{{formatTime(firstAired, 'YYYY/MM/DD')}}</span>
 					</p>
 					<p>{{overview}}</p>
 				</div>
